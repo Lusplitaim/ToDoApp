@@ -3,20 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApp.API", "ToDoApp.API\ToDoApp.API.csproj", "{AE6D562F-88CC-45EB-8B45-9D4032309ADD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.API", "ToDoApp.API\ToDoApp.API.csproj", "{AE6D562F-88CC-45EB-8B45-9D4032309ADD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApp.Core", "ToDoApp.Core\ToDoApp.Core.csproj", "{ED057EA1-B343-4EF5-AE0A-E90EAB132FE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApp.Infrastructure", "ToDoApp.Infrastructure\ToDoApp.Infrastructure.csproj", "{6232A232-4267-4E87-84D7-3950CAE50369}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AE6D562F-88CC-45EB-8B45-9D4032309ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AE6D562F-88CC-45EB-8B45-9D4032309ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE6D562F-88CC-45EB-8B45-9D4032309ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE6D562F-88CC-45EB-8B45-9D4032309ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED057EA1-B343-4EF5-AE0A-E90EAB132FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED057EA1-B343-4EF5-AE0A-E90EAB132FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED057EA1-B343-4EF5-AE0A-E90EAB132FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED057EA1-B343-4EF5-AE0A-E90EAB132FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6232A232-4267-4E87-84D7-3950CAE50369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6232A232-4267-4E87-84D7-3950CAE50369}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6232A232-4267-4E87-84D7-3950CAE50369}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6232A232-4267-4E87-84D7-3950CAE50369}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6EB14110-07F4-4AB1-A48A-D975DDD72A1F}
 	EndGlobalSection
 EndGlobal

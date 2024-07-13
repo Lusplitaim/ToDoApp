@@ -1,3 +1,5 @@
+using ToDoApp.Core.Extensions;
+using ToDoApp.Infrastructure.Extensions;
 
 namespace ToDoApp.API
 {
@@ -13,6 +15,13 @@ namespace ToDoApp.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
+
+            builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+            builder.Services.AddCore(builder.Configuration);
+            builder.Services.AddPersistence(builder.Configuration);
 
             var app = builder.Build();
 
@@ -25,6 +34,7 @@ namespace ToDoApp.API
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
