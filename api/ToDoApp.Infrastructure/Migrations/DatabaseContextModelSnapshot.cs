@@ -143,6 +143,55 @@ namespace ToDoApp.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ToDoApp.Core.Data.Entities.TodoEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsCompleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("PriorityLevel")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("PriorityLevel");
+
+                    b.ToTable("Todos");
+                });
+
+            modelBuilder.Entity("ToDoApp.Core.Data.Entities.TodoPriorityEntity", b =>
+                {
+                    b.Property<int>("Level")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Level");
+
+                    b.ToTable("TodoPriorities", (string)null);
+                });
+
             modelBuilder.Entity("ToDoApp.Core.Data.Entities.UserEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -259,6 +308,35 @@ namespace ToDoApp.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ToDoApp.Core.Data.Entities.TodoEntity", b =>
+                {
+                    b.HasOne("ToDoApp.Core.Data.Entities.UserEntity", "Creator")
+                        .WithMany("Todos")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ToDoApp.Core.Data.Entities.TodoPriorityEntity", "Priority")
+                        .WithMany("Todos")
+                        .HasForeignKey("PriorityLevel")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Priority");
+                });
+
+            modelBuilder.Entity("ToDoApp.Core.Data.Entities.TodoPriorityEntity", b =>
+                {
+                    b.Navigation("Todos");
+                });
+
+            modelBuilder.Entity("ToDoApp.Core.Data.Entities.UserEntity", b =>
+                {
+                    b.Navigation("Todos");
                 });
 #pragma warning restore 612, 618
         }

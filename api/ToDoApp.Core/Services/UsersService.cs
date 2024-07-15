@@ -17,17 +17,12 @@ namespace ToDoApp.Core.Services
             try
             {
                 var result = await m_UserStorage.GetAsync(userEmail);
-                if (result is not null)
-                {
-                    return result;
-                }
+                return result;
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not RestCoreException)
             {
                 throw new Exception("Failed to get user", ex);
             }
-
-            throw new NotFoundCoreException();
         }
     }
 }

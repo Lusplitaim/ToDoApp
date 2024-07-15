@@ -18,8 +18,10 @@ namespace ToDoApp.Core.Extensions
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<ITodosService, TodosService>();
 
             services.AddScoped<IUserStorage, UserStorage>();
+            services.AddScoped<ITodoStorage, TodoStorage>();
 
             services.AddScoped<IAuthUtils, AuthUtils>();
 

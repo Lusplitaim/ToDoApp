@@ -18,8 +18,4 @@
     <ProjectReference Include="..\ToDoApp.Core\ToDoApp.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Repositories\" />
-  </ItemGroup>
-
 </Project>

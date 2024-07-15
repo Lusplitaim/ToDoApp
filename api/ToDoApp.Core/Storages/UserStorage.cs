@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ToDoApp.Core.Data.Entities;
 using ToDoApp.Core.DTOs.User;
+using ToDoApp.Core.Exceptions;
 using ToDoApp.Core.Models;
 using ToDoApp.Core.Models.Constants;
 
@@ -41,12 +42,12 @@ namespace ToDoApp.Core.Storages
             return result;
         }
 
-        public async Task<UserDto?> GetAsync(string email)
+        public async Task<UserDto> GetAsync(string email)
         {
             var userEntity = await m_UserManager.FindByEmailAsync(email);
             if (userEntity is null)
             {
-                return null;
+                throw new NotFoundCoreException();
             }
 
             var roles = await m_UserManager.GetRolesAsync(userEntity);

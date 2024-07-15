@@ -57,11 +57,11 @@ namespace ToDoApp.Core.Services
                 var token = await CreateTokenAsync(model.Email);
                 var user = await m_UserStorage.GetAsync(model.Email);
 
-                result.Result = new() { User = user!, Token = token };
+                result.Result = new() { User = user, Token = token };
 
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not RestCoreException)
             {
                 throw new Exception("Failed to login user", ex);
             }
@@ -99,7 +99,7 @@ namespace ToDoApp.Core.Services
                     return new JwtSecurityTokenHandler().WriteToken(jwt);
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not RestCoreException)
             {
                 throw new Exception("Failed to create a token", ex);
             }
@@ -121,11 +121,11 @@ namespace ToDoApp.Core.Services
                 var token = await CreateTokenAsync(model.Email);
                 var user = await m_UserStorage.GetAsync(model.Email);
 
-                result.Result = new() { User = user!, Token = token };
+                result.Result = new() { User = user, Token = token };
 
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not RestCoreException)
             {
                 throw new Exception("Failed to create user", ex);
             }

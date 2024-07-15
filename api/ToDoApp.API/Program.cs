@@ -34,6 +34,11 @@ namespace ToDoApp.API
 
             app.UseHttpsRedirection();
 
+            app.UseCors(builder => builder.WithOrigins("https://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials());
+
             app.UseAuthentication();
             app.UseAuthorization();
 

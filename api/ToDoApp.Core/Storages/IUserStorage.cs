@@ -6,6 +6,6 @@ namespace ToDoApp.Core.Storages
     public interface IUserStorage
     {
         Task<ExecResult> CreateAsync(RegisterUserDto model);
-        Task<UserDto?> GetAsync(string email);
+        Task<UserDto> GetAsync(string email);
     }
 }

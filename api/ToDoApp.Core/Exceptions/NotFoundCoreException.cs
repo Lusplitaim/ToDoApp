@@ -1,6 +1,6 @@
 ﻿namespace ToDoApp.Core.Exceptions
 {
-    internal class NotFoundCoreException : Exception
+    internal class NotFoundCoreException : RestCoreException
     {
         public NotFoundCoreException() : base()
         {

@@ -7,7 +7,7 @@ namespace ToDoApp.Infrastructure.Data
 {
     public class DatabaseContext : IdentityDbContext<UserEntity, IdentityRole<int>, int>
     {
-        //public DbSet<EventEntity> Events { get; set; }
+        public DbSet<TodoEntity> Todos { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
@@ -17,18 +17,25 @@ namespace ToDoApp.Infrastructure.Data
         {
             base.OnModelCreating(builder);
 
-            /*builder.Entity<EventEntity>(b =>
+            builder.Entity<TodoEntity>(b =>
             {
                 b.HasKey(e => e.Id);
-                b.Property(e => e.Name).HasMaxLength(300);
-                b.Property(e => e.Description).HasMaxLength(1000);
-                b.Property(e => e.Venue).HasMaxLength(300);
+                b.Property(e => e.Title).HasMaxLength(300);
+                b.Property(e => e.IsCompleted).HasDefaultValue(false);
                 b.HasOne(e => e.Creator)
-                    .WithMany()
-                    .HasForeignKey(e => e.CreatorId)
-                    .OnDelete(DeleteBehavior.NoAction);
-                b.HasMany(c => c.Members).WithMany(u => u.Events);
-            });*/
+                    .WithMany(u => u.Todos)
+                    .HasForeignKey(e => e.CreatorId);
+                b.HasOne(e => e.Priority)
+                    .WithMany(p => p.Todos)
+                    .HasForeignKey(e => e.PriorityLevel)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<TodoPriorityEntity>(b =>
+            {
+                b.HasKey(e => e.Level);
+                b.ToTable("TodoPriorities");
+            });
         }
     }
 }

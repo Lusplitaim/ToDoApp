@@ -6,5 +6,7 @@ namespace ToDoApp.Core.Data.Entities
     {
         public override string UserName { get; set; }
         public override string Email { get; set; }
+
+        public ICollection<TodoEntity> Todos { get; } = [];
     }
 }
