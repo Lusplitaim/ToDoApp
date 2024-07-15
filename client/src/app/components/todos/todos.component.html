@@ -1,0 +1,26 @@
+<div class="d-flex flex-row-reverse">
+  <button class="btn btn-outline-primary" (click)="openCreationPageModal()">+</button>
+</div>
+<div ngbAccordion class="mt-2">
+    @for (todo of todos; track todo.id) {
+        <div ngbAccordionItem>
+            <h2 ngbAccordionHeader>
+              <button ngbAccordionButton>{{todo.title}}</button>
+            </h2>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody>
+                <ng-template>
+                    <p>description: {{todo.description}}</p>
+                    <p>completed: {{todo.isCompleted}}</p>
+                    <p>due date: {{todo.dueDate}}</p>
+                    <p>priority: {{todo.priority}}</p>
+                    <div class="d-flex todo-actions">
+                      <button class="btn btn-light" (click)="openEditModal(todo)">Edit</button>
+                      <button class="btn btn-danger" (click)="deleteTodo(todo)">Delete</button>
+                    </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+    }
+</div>

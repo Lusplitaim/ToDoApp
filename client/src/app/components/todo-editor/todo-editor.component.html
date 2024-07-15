@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{editMode ? 'Edit task' : 'New task'}}</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <form (ngSubmit)="saveTodo()" [formGroup]="todoForm">
+
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" name="title" class="form-control" formControlName="title" />
+      </div>
+      
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" name="description" class="form-control" formControlName="description" />
+      </div>
+    
+      <div class="mb-3">
+        <label for="dueDate" class="form-label">Due date</label>
+        <input type="date" name="dueDate" class="form-control" formControlName="dueDate" />
+      </div>
+    
+      <div class="mb-3">
+        <label for="priority" class="form-label">Priority</label>
+        <input type="number" name="priority" class="form-control" formControlName="priority" />
+      </div>
+    
+      <button type="submit" class="btn btn-primary" [disabled]="editMode ? !todoForm.dirty : todoForm.invalid">{{editMode ? 'Save' : 'Create'}}</button>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">Close</button>
+</div>
