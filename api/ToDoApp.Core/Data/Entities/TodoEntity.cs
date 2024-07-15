@@ -13,5 +13,8 @@
 
         public int CreatorId { get; set; }
         public UserEntity Creator { get; set; }
+
+        public int? AssignedUserId { get; set; }
+        public UserEntity? AssignedUser { get; set; }
     }
 }

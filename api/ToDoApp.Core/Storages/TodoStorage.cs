@@ -41,6 +41,7 @@ namespace ToDoApp.Core.Storages
                 DueDate = model.DueDate,
                 PriorityLevel = model.Priority,
                 CreatorId = creatorId,
+                AssignedUserId = model.AssignedUserId,
             };
 
             var createdEntity = m_UnitOfWork.TodoRepository.Create(entity);
@@ -64,6 +65,7 @@ namespace ToDoApp.Core.Storages
             entity.Description = model.Description;
             entity.DueDate = model.DueDate;
             entity.PriorityLevel = model.Priority;
+            entity.AssignedUserId = model.AssignedUserId;
 
             m_UnitOfWork.TodoRepository.Update(entity);
             await m_UnitOfWork.SaveAsync();

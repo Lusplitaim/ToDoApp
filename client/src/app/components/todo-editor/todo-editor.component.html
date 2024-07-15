@@ -25,6 +25,15 @@
         <label for="priority" class="form-label">Priority</label>
         <input type="number" name="priority" class="form-control" formControlName="priority" />
       </div>
+
+      <div class="mb-3">
+        <label for="assignedUserId" class="form-label">Assign to</label>
+        <select class="form-select" name="assignedUserId" formControlName="assignedUserId">
+          @for (user of users; track user.id) {
+            <option value={{user.id}}>{{user.userName}}</option>
+          }
+        </select>
+      </div>
     
       <button type="submit" class="btn btn-primary" [disabled]="editMode ? !todoForm.dirty : todoForm.invalid">{{editMode ? 'Save' : 'Create'}}</button>
     </form>

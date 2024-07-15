@@ -35,6 +35,7 @@
 
 <div ngbAccordion class="mt-2">
     @for (todo of todos; track todo.id) {
+      @let user = getAssignedUser(todo.assignedUserId);
         <div ngbAccordionItem>
             <h2 ngbAccordionHeader>
               <button ngbAccordionButton>{{todo.title}}</button>
@@ -42,10 +43,13 @@
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
                 <ng-template>
-                    <p>description: {{todo.description}}</p>
-                    <p>completed: {{todo.isCompleted}}</p>
-                    <p>due date: {{todo.dueDate}}</p>
+                  @if (user) {
+                    <p>assigned to: {{user.userName}}</p>
+                  }
+                    <p>status: {{todo.isCompleted ? 'completed' : 'active'}}</p>
+                    <p>due date: {{todo.dueDate | date}}</p>
                     <p>priority: {{todo.priority}}</p>
+                    <p>description: {{todo.description}}</p>
                     <div class="d-flex todo-actions">
                       <button class="btn btn-light" (click)="openEditModal(todo)">Edit</button>
                       <button class="btn btn-danger" (click)="deleteTodo(todo)">Delete</button>

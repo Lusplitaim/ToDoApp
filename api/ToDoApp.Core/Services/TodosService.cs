@@ -58,7 +58,6 @@ namespace ToDoApp.Core.Services
         {
             try
             {
-                var todo = await m_TodoStorage.GetAsync(todoId);
                 var result = await m_TodoStorage.UpdateAsync(todoId, model);
                 return result;
             }

@@ -1,5 +1,3 @@
-import { User } from "./user";
-
 export interface Todo {
     id: number,
     title: string,
@@ -7,5 +5,5 @@ export interface Todo {
     isCompleted: boolean,
     dueDate: Date,
     priority: number,
-    user: User,
+    assignedUserId?: number,
 }

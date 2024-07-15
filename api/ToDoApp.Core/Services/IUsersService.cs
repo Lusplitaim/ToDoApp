@@ -5,5 +5,6 @@ namespace ToDoApp.Core.Services
     public interface IUsersService
     {
         Task<UserDto> GetUserAsync(string userEmail);
+        Task<IEnumerable<UserDto>> GetUsersAsync();
     }
 }

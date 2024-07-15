@@ -15,7 +15,7 @@ namespace ToDoApp.Infrastructure.Data.Repositories
 
         public Task<List<TodoEntity>> GetByUserIdAsync(int userId, TodoFilters filters)
         {
-            var userTodos = m_DbContext.Todos.Where(t => t.CreatorId == userId);
+            var userTodos = m_DbContext.Todos.Where(t => t.CreatorId == userId || t.AssignedUserId == userId);
 
             if (filters.IsCompleted is not null)
             {

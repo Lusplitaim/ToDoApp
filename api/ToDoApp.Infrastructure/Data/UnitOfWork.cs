@@ -14,6 +14,7 @@ namespace ToDoApp.Infrastructure.Data
         }
 
         public ITodoRepository TodoRepository => new TodoRepository(m_DbContext);
+        public IUserRepository UserRepository => new UserRepository(m_DbContext);
 
         public async Task SaveAsync()
         {

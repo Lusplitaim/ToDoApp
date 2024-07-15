@@ -6,6 +6,7 @@ import { TodoCreateOrUpdate } from '../../models/todoCreateOrUpdate';
 import { TodoService } from '../../services/todo.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Todo } from '../../models/todo';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-todo-editor',
@@ -15,11 +16,12 @@ import { Todo } from '../../models/todo';
   styleUrl: './todo-editor.component.scss'
 })
 export class TodoEditorComponent implements OnInit {
-  formBuilder = inject(FormBuilder);
-  todoService = inject(TodoService);
+  private formBuilder = inject(FormBuilder);
+  private todoService = inject(TodoService);
   activeModal = inject(NgbActiveModal);
 
   @Input() todo: Todo | undefined;
+  @Input() users: User[] = [];
   editMode = false;
 
   ngOnInit(): void {
@@ -30,7 +32,8 @@ export class TodoEditorComponent implements OnInit {
         title: this.todo.title,
         description: this.todo.description,
         dueDate: this.todo.dueDate,
-        priority: this.todo.priority
+        priority: this.todo.priority,
+        assignedUserId: this.todo.assignedUserId,
       });
     }
   }
@@ -40,6 +43,7 @@ export class TodoEditorComponent implements OnInit {
     description: new FormControl<string | undefined>(undefined, [Validators.required]),
     dueDate: new FormControl<Date | undefined>(undefined, [Validators.required]),
     priority: new FormControl<number>(3, [Validators.required]),
+    assignedUserId: new FormControl<number | undefined>(undefined),
   });
 
   saveTodo(): void {
@@ -53,6 +57,7 @@ export class TodoEditorComponent implements OnInit {
       description: this.getControlValue(TodoFormKeys.Description),
       dueDate: this.getControlValue(TodoFormKeys.DueDate),
       priority: this.getControlValue(TodoFormKeys.Priority),
+      assignedUserId: this.getControlValue(TodoFormKeys.AssignedUserId),
     };
 
     if (this.editMode) {
@@ -77,6 +82,7 @@ export class TodoEditorComponent implements OnInit {
     [TodoFormKeys.Description]: "description",
     [TodoFormKeys.DueDate]: "dueDate",
     [TodoFormKeys.Priority]: "priority",
+    [TodoFormKeys.AssignedUserId]: "assignedUserId",
   };
 }
 
@@ -85,4 +91,5 @@ enum TodoFormKeys {
   Description,
   DueDate,
   Priority,
+  AssignedUserId,
 }

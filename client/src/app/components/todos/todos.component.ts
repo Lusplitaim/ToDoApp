@@ -9,11 +9,13 @@ import { TodoEditorComponent } from '../todo-editor/todo-editor.component';
 import { SharedModule } from '../../shared.module';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { TodoFilters } from '../../models/todoFilters';
+import { DatePipe } from '@angular/common';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-todos',
   standalone: true,
-  imports: [NgbAccordionModule, NgbCollapseModule, SharedModule],
+  imports: [NgbAccordionModule, NgbCollapseModule, SharedModule, DatePipe],
   templateUrl: './todos.component.html',
   styleUrl: './todos.component.scss'
 })
@@ -21,12 +23,14 @@ export class TodosComponent implements OnInit {
   private todoService = inject(TodoService);
   private toastService = inject(ToastService);
   private accountService = inject(AccountService);
+  private usersService = inject(UsersService);
   modal = inject(NgbModal);
   formBuilder = inject(FormBuilder);
 
   todos: Todo[] = [];
   disabled = false;
   currentUser: User | undefined;
+  users: User[] = [];
   filtersClosed = true;
 
   filtersForm = this.formBuilder.group({
@@ -38,6 +42,11 @@ export class TodosComponent implements OnInit {
     this.todoService.getTodos()
       .subscribe(todos => {
         this.todos = todos;
+      });
+
+    this.usersService.getUsers()
+      .subscribe(users => {
+        this.users = users;
       });
 
     this.currentUser = this.accountService.getCurrentUser();
@@ -62,6 +71,10 @@ export class TodosComponent implements OnInit {
     });
   }
 
+  getAssignedUser(userId?: number): User | undefined {
+    return this.users.find(u => u.id === userId);
+  }
+
   deleteTodo(todo: Todo): void {
     this.todoService.deleteTodo(todo.id)
       .subscribe(_ => {
@@ -72,18 +85,23 @@ export class TodosComponent implements OnInit {
 
   async openCreationPageModal(): Promise<void> {
     const modalRef = this.modal.open(TodoEditorComponent);
-    const result = await modalRef.result;
-    if (result) {
-      this.todos.push(result);
-    }
+    modalRef.componentInstance.users = this.users;
+    modalRef.closed.subscribe(createdTodo => {
+      if (createdTodo) {
+        this.todos.push(createdTodo);
+      }
+    });
   }
 
   openEditModal(todoForEdit: Todo): void {
     const modalRef = this.modal.open(TodoEditorComponent);
     modalRef.componentInstance.todo = todoForEdit;
+    modalRef.componentInstance.users = this.users;
     modalRef.closed.subscribe(editedTodo => {
-      const editedTodoIndex = this.todos.findIndex(el => el.id === editedTodo.id);
-      this.todos[editedTodoIndex] = editedTodo;
+      if (editedTodo) {
+        const editedTodoIndex = this.todos.findIndex(el => el.id === editedTodo.id);
+        this.todos[editedTodoIndex] = editedTodo;
+      }
     });
   }
 }

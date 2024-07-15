@@ -29,6 +29,10 @@ namespace ToDoApp.Infrastructure.Data
                     .WithMany(p => p.Todos)
                     .HasForeignKey(e => e.PriorityLevel)
                     .OnDelete(DeleteBehavior.Restrict);
+                b.HasOne(e => e.AssignedUser)
+                    .WithMany()
+                    .HasForeignKey(e => e.AssignedUserId)
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             builder.Entity<TodoPriorityEntity>(b =>

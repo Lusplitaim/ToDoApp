@@ -1,4 +1,5 @@
 ﻿using ToDoApp.Core.Data.Entities;
+using ToDoApp.Core.DTOs.User;
 
 namespace ToDoApp.Core.DTOs.Todo
 {
@@ -10,6 +11,7 @@ namespace ToDoApp.Core.DTOs.Todo
         public bool IsCompleted { get; set; }
         public DateTime DueDate { get; set; }
         public int Priority { get; set; }
+        public int? AssignedUserId { get; set; }
 
         public static TodoDto From(TodoEntity entity)
         {
@@ -21,6 +23,7 @@ namespace ToDoApp.Core.DTOs.Todo
                 IsCompleted = entity.IsCompleted,
                 DueDate = entity.DueDate,
                 Priority = entity.PriorityLevel,
+                AssignedUserId = entity.AssignedUserId,
             };
         }
     }

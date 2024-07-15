@@ -3,4 +3,5 @@ export interface TodoCreateOrUpdate {
     description: string,
     dueDate: Date,
     priority: number,
+    assignedUserId?: number,
 }

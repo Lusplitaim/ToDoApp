@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using ToDoApp.Core.Data;
 using ToDoApp.Core.Data.Entities;
 using ToDoApp.Core.DTOs.User;
 using ToDoApp.Core.Exceptions;
@@ -10,9 +11,11 @@ namespace ToDoApp.Core.Storages
     internal class UserStorage : IUserStorage
     {
         private readonly UserManager<UserEntity> m_UserManager;
-        public UserStorage(UserManager<UserEntity> userManager)
+        private readonly IUnitOfWork m_UnitOfWork;
+        public UserStorage(UserManager<UserEntity> userManager, IUnitOfWork uow)
         {
             m_UserManager = userManager;
+            m_UnitOfWork = uow;
         }
 
         public async Task<ExecResult> CreateAsync(RegisterUserDto model)
@@ -60,6 +63,12 @@ namespace ToDoApp.Core.Storages
             };
 
             return result;
+        }
+
+        public async Task<List<UserDto>> GetAsync()
+        {
+            var entities = await m_UnitOfWork.UserRepository.GetAsync();
+            return entities.Select(UserDto.From).ToList();
         }
     }
 }

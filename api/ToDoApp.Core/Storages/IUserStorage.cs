@@ -7,5 +7,6 @@ namespace ToDoApp.Core.Storages
     {
         Task<ExecResult> CreateAsync(RegisterUserDto model);
         Task<UserDto> GetAsync(string email);
+        Task<List<UserDto>> GetAsync();
     }
 }
