@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ToDoApp.Core.Data.Entities;
 using ToDoApp.Core.Data.Repositories;
+using ToDoApp.Core.Models;
 
 namespace ToDoApp.Infrastructure.Data.Repositories
 {
@@ -12,9 +13,20 @@ namespace ToDoApp.Infrastructure.Data.Repositories
             m_DbContext = dbContext;
         }
 
-        public Task<List<TodoEntity>> GetByUserIdAsync(int userId)
+        public Task<List<TodoEntity>> GetByUserIdAsync(int userId, TodoFilters filters)
         {
-            return m_DbContext.Todos.Where(t => t.CreatorId == userId).ToListAsync();
+            var userTodos = m_DbContext.Todos.Where(t => t.CreatorId == userId);
+
+            if (filters.IsCompleted is not null)
+            {
+                userTodos = userTodos.Where(t => t.IsCompleted == filters.IsCompleted);
+            }
+            if (filters.PriorityLevels.Count > 0)
+            {
+                userTodos = userTodos.Where(t => filters.PriorityLevels.Contains(t.PriorityLevel));
+            }
+
+            return userTodos.ToListAsync();
         }
 
         public TodoEntity? Get(int todoId)

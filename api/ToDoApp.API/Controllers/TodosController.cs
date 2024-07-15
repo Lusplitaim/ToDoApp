@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ToDoApp.Core.DTOs.Todo;
 using ToDoApp.Core.Extensions;
+using ToDoApp.Core.Models;
 using ToDoApp.Core.Services;
 
 namespace ToDoApp.API.Controllers
@@ -14,9 +15,9 @@ namespace ToDoApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] TodoFilters filters)
         {
-            var result = await m_TodosService.GetAsync();
+            var result = await m_TodosService.GetAsync(filters);
             return Ok(result);
         }
 

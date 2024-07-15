@@ -1,31 +1,29 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
 import { TodoCreateOrUpdate } from '../models/todoCreateOrUpdate';
 import { Todo } from '../models/todo';
+import { TodoFilters } from '../models/todoFilters';
+import { TodoApiService } from './api/todo-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
-  private todosUrl = environment.apiUrl + 'todos';
+  private todoApi = inject(TodoApiService);
 
-  constructor(private http: HttpClient) { }
-
-  getTodos(): Observable<Todo[]> {
-    return this.http.get<Todo[]>(this.todosUrl);
+  getTodos(filters: TodoFilters | null = null): Observable<Todo[]> {
+    return this.todoApi.getTodos(filters);
   }
 
   createTodo(todo: TodoCreateOrUpdate): Observable<Todo> {
-    return this.http.post<Todo>(this.todosUrl, todo);
+    return this.todoApi.createTodo(todo);
   }
 
   editTodo(todoId: number, todo: TodoCreateOrUpdate): Observable<Todo> {
-    return this.http.put<Todo>(`${this.todosUrl}/${todoId}`, todo);
+    return this.todoApi.editTodo(todoId, todo);
   }
 
   deleteTodo(todoId: number): Observable<void> {
-    return this.http.delete<void>(`${this.todosUrl}/${todoId}`);
+    return this.todoApi.deleteTodo(todoId);
   }
 }

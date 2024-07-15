@@ -19,13 +19,13 @@ namespace ToDoApp.Core.Services
             m_UnitOfWork = uow;
         }
 
-        public async Task<IEnumerable<TodoDto>> GetAsync()
+        public async Task<IEnumerable<TodoDto>> GetAsync(TodoFilters filters)
         {
             try
             {
                 var currentUserId = m_AuthUtils.GetAuthUserId();
 
-                var result = await m_TodoStorage.GetByUserIdAsync(currentUserId);
+                var result = await m_TodoStorage.GetByUserIdAsync(currentUserId, filters);
 
                 return result;
             }

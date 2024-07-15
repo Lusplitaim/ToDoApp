@@ -1,6 +1,38 @@
-<div class="d-flex flex-row-reverse">
-  <button class="btn btn-outline-primary" (click)="openCreationPageModal()">+</button>
+<div class="d-flex flex-column">
+  <div class="d-flex mb-2">
+    <button class="btn btn-outline-primary me-auto" (click)="filter.toggle()">Filters</button>
+    <button class="btn btn-outline-primary" (click)="openCreationPageModal()">+</button>
+  </div>
+  <div #filter="ngbCollapse" [(ngbCollapse)]="filtersClosed">
+    <div class="card">
+      <form class="container-sm mt-3" (ngSubmit)="applyFilters()" [formGroup]="filtersForm">
+
+        <div class="mb-3">
+          <label for="priority" class="form-label">Priorities</label>
+          <select class="form-select" multiple name="priority" formControlName="priority">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <div class="form-check">
+            <input class="form-check-input" name="isCompleted" type="checkbox" formControlName="isCompleted">
+            <label class="form-check-label" for="isCompleted">Completed</label>
+          </div>
+        </div>
+      
+        <div class="mb-3 d-flex column-gap-2">
+          <button type="submit" class="btn btn-primary">Apply</button>
+          <button class="btn btn-light" (click)="resetFilters()">Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
+
 <div ngbAccordion class="mt-2">
     @for (todo of todos; track todo.id) {
         <div ngbAccordionItem>

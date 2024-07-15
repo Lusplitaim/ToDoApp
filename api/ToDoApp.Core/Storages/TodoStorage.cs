@@ -25,9 +25,9 @@ namespace ToDoApp.Core.Storages
             return Task.FromResult(TodoDto.From(entity));
         }
 
-        public async Task<List<TodoDto>> GetByUserIdAsync(int userId)
+        public async Task<List<TodoDto>> GetByUserIdAsync(int userId, TodoFilters filters)
         {
-            var entities = await m_UnitOfWork.TodoRepository.GetByUserIdAsync(userId);
+            var entities = await m_UnitOfWork.TodoRepository.GetByUserIdAsync(userId, filters);
             return entities.Select(TodoDto.From).ToList();
         }
 
