@@ -35,6 +35,14 @@ namespace ToDoApp.API.Controllers
             return this.ResolveResult(result, () => Ok(result.Result));
         }
 
+
+        [HttpPut("{todoId}/status")]
+        public async Task<IActionResult> Update([FromRoute] int todoId, UpdateTodoStatusDto model)
+        {
+            var result = await m_TodosService.UpdateStatusAsync(todoId, model);
+            return this.ResolveResult(result, () => Ok(result.Result));
+        }
+
         [HttpDelete("{todoId}")]
         public async Task<IActionResult> Delete(int todoId)
         {

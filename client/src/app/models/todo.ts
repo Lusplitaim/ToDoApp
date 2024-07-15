@@ -6,4 +6,5 @@ export interface Todo {
     dueDate: Date,
     priority: number,
     assignedUserId?: number,
+    creatorId: number,
 }

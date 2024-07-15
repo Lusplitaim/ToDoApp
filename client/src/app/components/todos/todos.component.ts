@@ -28,8 +28,7 @@ export class TodosComponent implements OnInit {
   formBuilder = inject(FormBuilder);
 
   todos: Todo[] = [];
-  disabled = false;
-  currentUser: User | undefined;
+  currentUser!: User;
   users: User[] = [];
   filtersClosed = true;
 
@@ -103,5 +102,12 @@ export class TodosComponent implements OnInit {
         this.todos[editedTodoIndex] = editedTodo;
       }
     });
+  }
+
+  toggleTodoStatus(todo: Todo): void {
+    this.todoService.updateStatus(todo.id, !todo.isCompleted)
+      .subscribe(_ => {
+        todo.isCompleted = !todo.isCompleted;
+      });
   }
 }

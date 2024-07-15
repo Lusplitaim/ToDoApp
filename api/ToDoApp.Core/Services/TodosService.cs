@@ -67,6 +67,19 @@ namespace ToDoApp.Core.Services
             }
         }
 
+        public async Task<ExecResult<TodoDto>> UpdateStatusAsync(int todoId, UpdateTodoStatusDto model)
+        {
+            try
+            {
+                var result = await m_TodoStorage.UpdateStatusAsync(todoId, model);
+                return result;
+            }
+            catch (Exception ex) when (ex is not RestCoreException)
+            {
+                throw new Exception("Failed to update todo status", ex);
+            }
+        }
+
         public async Task<ExecResult> DeleteAsync(int todoId)
         {
             try

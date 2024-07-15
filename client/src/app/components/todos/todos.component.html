@@ -35,14 +35,17 @@
 
 <div ngbAccordion class="mt-2">
     @for (todo of todos; track todo.id) {
-      @let user = getAssignedUser(todo.assignedUserId);
         <div ngbAccordionItem>
-            <h2 ngbAccordionHeader>
+            <h2 ngbAccordionHeader class="d-flex">
+              <div class="form-check m-2">
+                <input class="form-check-input" type="checkbox" [checked]="todo.isCompleted" (click)="toggleTodoStatus(todo)" />
+              </div>
               <button ngbAccordionButton>{{todo.title}}</button>
             </h2>
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
                 <ng-template>
+                  @let user = getAssignedUser(todo.assignedUserId);
                   @if (user) {
                     <p>assigned to: {{user.userName}}</p>
                   }
@@ -50,10 +53,12 @@
                     <p>due date: {{todo.dueDate | date}}</p>
                     <p>priority: {{todo.priority}}</p>
                     <p>description: {{todo.description}}</p>
-                    <div class="d-flex todo-actions">
-                      <button class="btn btn-light" (click)="openEditModal(todo)">Edit</button>
-                      <button class="btn btn-danger" (click)="deleteTodo(todo)">Delete</button>
-                    </div>
+                    @if (currentUser.id === todo.creatorId) {
+                      <div class="d-flex todo-actions">
+                        <button class="btn btn-light" (click)="openEditModal(todo)">Edit</button>
+                        <button class="btn btn-danger" (click)="deleteTodo(todo)">Delete</button>
+                      </div>
+                    }
                 </ng-template>
               </div>
             </div>

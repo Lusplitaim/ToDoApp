@@ -12,7 +12,7 @@ export class BaseApi {
     for (const key of keys) {
       let keyVal = data[key];
 
-      if (!keyVal) continue;
+      if (typeof keyVal !== "boolean" && !keyVal) continue;
 
       if (Array.isArray(keyVal)) {
         keyVal.forEach((el) => {

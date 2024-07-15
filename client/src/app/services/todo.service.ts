@@ -23,6 +23,10 @@ export class TodoService {
     return this.todoApi.editTodo(todoId, todo);
   }
 
+  updateStatus(todoId: number, isCompleted: boolean): Observable<void> {
+    return this.todoApi.updateStatus(todoId, isCompleted);
+  }
+
   deleteTodo(todoId: number): Observable<void> {
     return this.todoApi.deleteTodo(todoId);
   }

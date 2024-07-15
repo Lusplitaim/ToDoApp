@@ -74,6 +74,25 @@ namespace ToDoApp.Core.Storages
             return result;
         }
 
+        public async Task<ExecResult<TodoDto>> UpdateStatusAsync(int todoId, UpdateTodoStatusDto model)
+        {
+            var result = new ExecResult<TodoDto>();
+
+            var entity = m_UnitOfWork.TodoRepository.Get(todoId);
+            if (entity is null)
+            {
+                throw new NotFoundCoreException();
+            }
+
+            entity.IsCompleted = model.IsCompleted;
+
+            m_UnitOfWork.TodoRepository.Update(entity);
+            await m_UnitOfWork.SaveAsync();
+            result.Result = TodoDto.From(entity);
+
+            return result;
+        }
+
         public async Task<ExecResult> DeleteAsync(int todoId)
         {
             var result = new ExecResult();

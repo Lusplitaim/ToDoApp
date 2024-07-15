@@ -33,6 +33,10 @@ export class TodoApiService extends BaseApi {
     return this.http.put<Todo>(`${this.todosUrl}/${todoId}`, todo);
   }
 
+  updateStatus(todoId: number, isCompleted: boolean): Observable<void> {
+    return this.http.put<void>(`${this.todosUrl}/${todoId}/status`, { isCompleted });
+  }
+
   deleteTodo(todoId: number): Observable<void> {
     return this.http.delete<void>(`${this.todosUrl}/${todoId}`);
   }
