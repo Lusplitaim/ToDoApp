@@ -1,17 +1,23 @@
-﻿using ToDoApp.Core.Data;
+﻿using FluentValidation;
+using ToDoApp.Core.Data;
 using ToDoApp.Core.Data.Entities;
 using ToDoApp.Core.DTOs.Todo;
 using ToDoApp.Core.Exceptions;
 using ToDoApp.Core.Models;
+using ToDoApp.Core.Utils;
 
 namespace ToDoApp.Core.Storages
 {
     internal class TodoStorage : ITodoStorage
     {
         private readonly IUnitOfWork m_UnitOfWork;
-        public TodoStorage(IUnitOfWork uow)
+        private readonly IValidator<ModificationModel<TodoEntity>> m_Validator;
+        private readonly IAuthUtils m_AuthUtils;
+        public TodoStorage(IUnitOfWork uow, IValidator<ModificationModel<TodoEntity>> validator, IAuthUtils authUtils)
         {
             m_UnitOfWork = uow;
+            m_Validator = validator;
+            m_AuthUtils = authUtils;
         }
 
         public Task<TodoDto> GetAsync(int todoId)
@@ -34,15 +40,23 @@ namespace ToDoApp.Core.Storages
         public async Task<ExecResult<TodoDto>> CreateAsync(int creatorId, CreateTodoDto model)
         {
             var result = new ExecResult<TodoDto>();
+
             TodoEntity entity = new()
             {
                 Title = model.Title,
                 Description = model.Description,
                 DueDate = model.DueDate,
-                PriorityLevel = model.Priority,
+                PriorityLevel = (int)model.Priority,
                 CreatorId = creatorId,
                 AssignedUserId = model.AssignedUserId,
             };
+
+            var validResult = m_Validator.Validate(new ModificationModel<TodoEntity>(null, entity));
+            if (!validResult.IsValid)
+            {
+                result.AddErrors(validResult);
+                return result;
+            }
 
             var createdEntity = m_UnitOfWork.TodoRepository.Create(entity);
             await m_UnitOfWork.SaveAsync();
@@ -55,19 +69,34 @@ namespace ToDoApp.Core.Storages
         {
             var result = new ExecResult<TodoDto>();
 
-            var entity = m_UnitOfWork.TodoRepository.Get(todoId);
+            var entity = m_UnitOfWork.TodoRepository.Get(todoId, track: false);
             if (entity is null)
             {
                 throw new NotFoundCoreException();
             }
 
-            entity.Title = model.Title;
-            entity.Description = model.Description;
-            entity.DueDate = model.DueDate;
-            entity.PriorityLevel = model.Priority;
-            entity.AssignedUserId = model.AssignedUserId;
+            var currentUserId = m_AuthUtils.GetAuthUserId();
+            if (currentUserId != entity.CreatorId)
+            {
+                throw new ForbiddenCoreException();
+            }
 
-            m_UnitOfWork.TodoRepository.Update(entity);
+            var forSave = (TodoEntity)entity.Clone();
+
+            forSave.Title = model.Title;
+            forSave.Description = model.Description;
+            forSave.DueDate = model.DueDate;
+            forSave.PriorityLevel = (int)model.Priority;
+            forSave.AssignedUserId = model.AssignedUserId;
+
+            var validResult = m_Validator.Validate(new ModificationModel<TodoEntity>(entity, forSave));
+            if (!validResult.IsValid)
+            {
+                result.AddErrors(validResult);
+                return result;
+            }
+
+            m_UnitOfWork.TodoRepository.Update(forSave);
             await m_UnitOfWork.SaveAsync();
             result.Result = TodoDto.From(entity);
 

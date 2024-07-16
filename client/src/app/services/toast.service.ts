@@ -7,8 +7,8 @@ import { ToastInfo } from '../models/toastInfo';
 export class ToastService {
   toasts: ToastInfo[] = [];
 
-  show(header: string, body: string) {
-    this.toasts.push({ header, body });
+  showDanger(header: string, body: string) {
+    this.toasts.push({ header, body, classname: "bg-danger text-light" });
   }
 
   remove(toast: ToastInfo) {

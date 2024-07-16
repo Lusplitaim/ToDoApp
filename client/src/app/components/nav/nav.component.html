@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">To DO App</a>
+    <a class="navbar-brand" href="#">To Do App</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -18,7 +18,11 @@
           <a class="nav-link" routerLink="" RouterLinkActive="active" routerLinkActive="router-link-active">Tasks</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/login" RouterLinkActive="active">Sign in</a>
+          @if (accountService.isLoggedIn()) {
+            <a class="nav-link" routerLink="/login" (click)="logout()">Log out</a>
+          } @else {
+            <a class="nav-link" routerLink="/login" RouterLinkActive="active">Sign in</a>
+          }
         </li>
       </ul>
     </div>

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-nav',
@@ -9,5 +10,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './nav.component.scss'
 })
 export class NavComponent {
+  accountService = inject(AccountService);
 
+  logout(): void {
+    this.accountService.logout();
+  }
 }

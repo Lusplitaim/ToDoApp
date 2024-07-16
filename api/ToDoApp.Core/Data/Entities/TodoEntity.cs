@@ -1,6 +1,6 @@
 ﻿namespace ToDoApp.Core.Data.Entities
 {
-    public class TodoEntity
+    public class TodoEntity : ICloneable
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -16,5 +16,10 @@
 
         public int? AssignedUserId { get; set; }
         public UserEntity? AssignedUser { get; set; }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }

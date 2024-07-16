@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Identity;
 
 namespace ToDoApp.Core.Models
 {
@@ -25,6 +26,18 @@ namespace ToDoApp.Core.Models
                 {
                     Message = err.Description,
                     Code = err.Code,
+                });
+            }
+        }
+
+        public void AddErrors(ValidationResult validationResult)
+        {
+            foreach (var err in validationResult.Errors)
+            {
+                Errors.Add(new ExecError
+                {
+                    Message = err.ErrorMessage,
+                    Code = err.ErrorCode,
                 });
             }
         }

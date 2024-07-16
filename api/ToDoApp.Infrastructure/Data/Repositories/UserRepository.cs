@@ -12,6 +12,11 @@ namespace ToDoApp.Infrastructure.Data.Repositories
             m_DbContext = dbContext;
         }
 
+        public UserEntity? Get(int userId)
+        {
+            return m_DbContext.Users.SingleOrDefault(u => u.Id == userId);
+        }
+
         public async Task<List<UserEntity>> GetAsync()
         {
             return await m_DbContext.Users.ToListAsync();

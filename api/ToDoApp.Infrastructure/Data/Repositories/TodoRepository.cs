@@ -29,9 +29,14 @@ namespace ToDoApp.Infrastructure.Data.Repositories
             return userTodos.ToListAsync();
         }
 
-        public TodoEntity? Get(int todoId)
+        public TodoEntity? Get(int todoId, bool track = true)
         {
-            return m_DbContext.Todos.SingleOrDefault(e => e.Id == todoId);
+            IQueryable<TodoEntity> todos = m_DbContext.Todos;
+            if (!track)
+            {
+                todos = todos.AsNoTracking();
+            }
+            return todos.SingleOrDefault(e => e.Id == todoId);
         }
 
         public TodoEntity Create(TodoEntity entity)

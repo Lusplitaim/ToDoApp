@@ -5,7 +5,7 @@ namespace ToDoApp.Core.Data.Repositories
 {
     public interface ITodoRepository
     {
-        TodoEntity? Get(int todoId);
+        TodoEntity? Get(int todoId, bool track = true);
         Task<List<TodoEntity>> GetByUserIdAsync(int userId, TodoFilters filters);
         TodoEntity Create(TodoEntity entity);
         TodoEntity Update(TodoEntity entity);

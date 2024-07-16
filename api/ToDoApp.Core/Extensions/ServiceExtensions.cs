@@ -1,11 +1,16 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ToDoApp.Core.Data.Entities;
+using ToDoApp.Core.DTOs.Todo;
+using ToDoApp.Core.Models;
 using ToDoApp.Core.Models.Options;
 using ToDoApp.Core.Services;
 using ToDoApp.Core.Storages;
+using ToDoApp.Core.Storages.Validators;
 using ToDoApp.Core.Utils;
 
 namespace ToDoApp.Core.Extensions
@@ -27,6 +32,14 @@ namespace ToDoApp.Core.Extensions
 
             services.Configure<JwtOptions>(config.GetSection(JwtOptions.JwtSettings));
 
+            services.AddValidators();
+
+            return services;
+        }
+
+        private static IServiceCollection AddValidators(this IServiceCollection services)
+        {
+            services.AddTransient<IValidator<ModificationModel<TodoEntity>>, EditTodoValidator>();
             return services;
         }
 
